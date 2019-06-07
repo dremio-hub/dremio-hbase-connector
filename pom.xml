@@ -20,14 +20,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.dremio.plugin</groupId>
-  <version>3.1.1-201901281837140761-30c9d74</version>
+  <version>3.2.3-201905301727340724-7419ad0</version>
   <artifactId>dremio-hbase-plugin</artifactId>
 
   <name>Dremio HBase Community Connector</name>
 
   <properties>
     <hbase.TestSuite>**/HBaseTestsSuite.class</hbase.TestSuite>
-    <version.dremio>3.1.1-201901281837140761-30c9d74</version.dremio>
+    <version.dremio>3.2.3-201905301727340724-7419ad0</version.dremio>
   </properties>
 
   <dependencies>
