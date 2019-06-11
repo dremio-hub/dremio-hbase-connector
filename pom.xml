@@ -62,7 +62,8 @@
     </dependency>
 
     <!-- Test dependencies -->
-    <dependency>
+    <!-- Tests are currently excluded from the build. -->
+    <!-- <dependency>
       <groupId>com.dremio.sabot</groupId>
       <artifactId>dremio-sabot-kernel</artifactId>
       <version>${version.dremio}</version>
@@ -81,7 +82,7 @@
       <version>${version.dremio}</version>
       <classifier>tests</classifier>
       <scope>test</scope>
-    </dependency>
+    </dependency> -->
     <dependency>
       <groupId>com.yammer.metrics</groupId>
       <artifactId>metrics-core</artifactId>
@@ -126,6 +127,10 @@
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
+          <!-- Tests are currently excluded from the build. -->
+          <testExcludes>
+            <exclude>**/*Test*.java</exclude>
+          </testExcludes>
         </configuration>
       </plugin>      
       <plugin>
