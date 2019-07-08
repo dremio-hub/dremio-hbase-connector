@@ -20,14 +20,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.dremio.plugin</groupId>
-  <version>3.1.1-201901281837140761-30c9d74</version>
+  <version>3.2.4-201906051751050278-1bcce62</version>
   <artifactId>dremio-hbase-plugin</artifactId>
 
   <name>Dremio HBase Community Connector</name>
 
   <properties>
     <hbase.TestSuite>**/HBaseTestsSuite.class</hbase.TestSuite>
-    <version.dremio>3.1.1-201901281837140761-30c9d74</version.dremio>
+    <version.dremio>3.2.4-201906051751050278-1bcce62</version.dremio>
   </properties>
 
   <dependencies>
@@ -62,7 +62,8 @@
     </dependency>
 
     <!-- Test dependencies -->
-    <dependency>
+    <!-- Tests are currently excluded from the build. -->
+    <!-- <dependency>
       <groupId>com.dremio.sabot</groupId>
       <artifactId>dremio-sabot-kernel</artifactId>
       <version>${version.dremio}</version>
@@ -81,7 +82,7 @@
       <version>${version.dremio}</version>
       <classifier>tests</classifier>
       <scope>test</scope>
-    </dependency>
+    </dependency> -->
     <dependency>
       <groupId>com.yammer.metrics</groupId>
       <artifactId>metrics-core</artifactId>
@@ -126,6 +127,10 @@
         <configuration>
           <source>1.8</source>
           <target>1.8</target>
+          <!-- Tests are currently excluded from the build. -->
+          <testExcludes>
+            <exclude>**/*Test*.java</exclude>
+          </testExcludes>
         </configuration>
       </plugin>      
       <plugin>
