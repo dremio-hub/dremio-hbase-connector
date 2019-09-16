@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.IOException;
 import java.security.PrivilegedExceptionAction;
+import java.util.concurrent.ExecutorService;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.TableName;
@@ -29,10 +30,11 @@ import org.apache.hadoop.hbase.client.Connection;
 import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.apache.hadoop.hbase.client.RegionLocator;
 import org.apache.hadoop.hbase.client.Table;
+import org.apache.hadoop.hbase.client.TableBuilder;
 import org.apache.hadoop.security.UserGroupInformation;
 
 import com.dremio.common.exceptions.UserException;
-import com.dremio.exec.util.ImpersonationUtil;
+import com.dremio.exec.store.dfs.ImpersonationUtil;
 
 /**
  * A Connection implementation that supports quick connection validation and renewing connection as necessary.
@@ -170,6 +172,11 @@ public class HBaseConnectionManager implements AutoCloseable {
     }
 
     @Override
+    public void clearRegionLocationCache() {
+      delegate.clearRegionLocationCache();
+    }
+
+    @Override
     public boolean isAborted() {
       return delegate.isAborted();
     }
@@ -205,6 +212,11 @@ public class HBaseConnectionManager implements AutoCloseable {
     }
 
     @Override
+    public TableBuilder getTableBuilder(TableName tableName, ExecutorService executorService) {
+      return delegate.getTableBuilder(tableName, executorService);
+    }
+
+    @Override
     public Admin getAdmin() throws IOException {
       return delegate.getAdmin();
     }
@@ -217,6 +229,5 @@ public class HBaseConnectionManager implements AutoCloseable {
     public boolean isClosed() {
       return delegate.isClosed();
     }
-
   }
 }
