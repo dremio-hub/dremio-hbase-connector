@@ -27,6 +27,7 @@
 
   <properties>
     <hbase.TestSuite>**/HBaseTestsSuite.class</hbase.TestSuite>
+    <protobuf.version>2.5.0</protobuf.version>
     <version.dremio>3.2.4-201906051751050278-1bcce62</version.dremio>
   </properties>
 
@@ -105,7 +106,7 @@
     <dependency>
       <groupId>com.google.protobuf</groupId>
       <artifactId>protobuf-java</artifactId>
-      <version>2.5.0</version>
+      <version>${protobuf.version}</version>
     </dependency>
     
   </dependencies>
@@ -120,6 +121,20 @@
           <configLocation>src/main/checkstyle/checkstyle-config.xml</configLocation>
           <suppressionsLocation>src/main/checkstyle/checkstyle-suppressions.xml</suppressionsLocation>
         </configuration>
+      </plugin>
+      <plugin>
+        <!-- use as plugin instead of extension to resolve issues in Eclipse. See https://github.com/xolstice/protobuf-maven-plugin/issues/10#issuecomment-419529938 for more detail -->
+        <groupId>kr.motd.maven</groupId>
+        <artifactId>os-maven-plugin</artifactId>
+        <version>1.6.2</version>
+        <executions>
+          <execution>
+            <phase>initialize</phase>
+            <goals>
+              <goal>detect</goal>
+            </goals>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -139,6 +154,7 @@
         <version>0.5.0</version>
         <configuration>
           <protoSourceRoot>${basedir}/src/main/proto</protoSourceRoot>
+          <protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}</protocArtifact>
         </configuration>
         <executions>
           <execution>
