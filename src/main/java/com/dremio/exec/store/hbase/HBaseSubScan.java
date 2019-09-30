@@ -111,12 +111,12 @@ public class HBaseSubScan extends SubScanWithProjection {
       .addAllScans(scans)
       .build();
 
-    writer.writeProtoEntry(this, SCANS_ATTRIBUTE_KEY, list);
+    writer.writeProtoEntry(this.props, SCANS_ATTRIBUTE_KEY, list);
   }
 
   @Override
   public void populateMinorSpecificAttrs(MinorDataReader reader) throws Exception {
-    ByteString buffer = reader.readProtoEntry(this, SCANS_ATTRIBUTE_KEY);
+    ByteString buffer = reader.readProtoEntry(this.props, SCANS_ATTRIBUTE_KEY);
     this.scans = HBaseSubScanSpecList.parseFrom(buffer).getScansList();
   }
 }

@@ -32,7 +32,7 @@ import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.security.UserGroupInformation;
 
 import com.dremio.common.exceptions.UserException;
-import com.dremio.exec.util.ImpersonationUtil;
+import com.dremio.exec.store.dfs.ImpersonationUtil;
 
 /**
  * A Connection implementation that supports quick connection validation and renewing connection as necessary.
