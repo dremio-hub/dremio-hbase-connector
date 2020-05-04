@@ -20,14 +20,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.dremio.plugin</groupId>
-  <version>4.0.0-201909121834570395-c7a5071</version>
+  <version>4.2.2-202004211133290458-b550b6fa</version>
   <artifactId>dremio-hbase-plugin</artifactId>
 
   <name>Dremio HBase Community Connector</name>
 
   <properties>
     <hbase.TestSuite>**/HBaseTestsSuite.class</hbase.TestSuite>
-    <version.dremio>4.0.0-201909121834570395-c7a5071</version.dremio>
+    <version.dremio>4.2.2-202004211133290458-b550b6fa</version.dremio>
   </properties>
 
   <dependencies>
@@ -111,7 +111,7 @@
     <dependency>
       <groupId>com.google.protobuf</groupId>
       <artifactId>protobuf-java</artifactId>
-      <version>2.5.0</version>
+      <version>3.9.1</version>
     </dependency>
     
   </dependencies>
@@ -142,7 +142,7 @@
       <plugin>
         <groupId>org.xolstice.maven.plugins</groupId>
         <artifactId>protobuf-maven-plugin</artifactId>
-        <version>0.5.0</version>
+        <version>0.6.1</version>
         <configuration>
           <protoSourceRoot>${basedir}/src/main/proto</protoSourceRoot>
         </configuration>
