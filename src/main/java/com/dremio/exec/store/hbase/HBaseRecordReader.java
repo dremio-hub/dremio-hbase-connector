@@ -129,7 +129,7 @@ public class HBaseRecordReader extends AbstractRecordReader implements HBaseCons
     }
   }
 
-  public void setNumRowsPerBatch(long numRowsPerBatch) {
+  public void setNumRowsPerBatch(int numRowsPerBatch) {
     this.numRowsPerBatch = numRowsPerBatch;
   }
 

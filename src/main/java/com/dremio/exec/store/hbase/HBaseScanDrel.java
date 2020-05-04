@@ -39,7 +39,7 @@ public class HBaseScanDrel extends ScanRelBase implements Rel {
 
   @Override
   public RelNode copy(RelTraitSet traitSet, List<RelNode> inputs) {
-    return new HBaseScanDrel(getCluster(), traitSet, table, pluginId, tableMetadata, projectedColumns, observedRowcountAdjustment);
+    return new HBaseScanDrel(getCluster(), traitSet, table, pluginId, tableMetadata, getProjectedColumns(), observedRowcountAdjustment);
   }
 
   @Override
