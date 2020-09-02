@@ -20,14 +20,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.dremio.plugin</groupId>
-  <version>4.2.2-202004211133290458-b550b6fa</version>
+  <version>4.7.3-202008270723550726-918276ee</version>
   <artifactId>dremio-hbase-plugin</artifactId>
 
   <name>Dremio HBase Community Connector</name>
 
   <properties>
     <hbase.TestSuite>**/HBaseTestsSuite.class</hbase.TestSuite>
-    <version.dremio>4.2.2-202004211133290458-b550b6fa</version.dremio>
   </properties>
 
   <dependencies>
@@ -48,7 +47,7 @@
     <dependency>
       <groupId>com.dremio.sabot</groupId>
       <artifactId>dremio-sabot-kernel</artifactId>
-      <version>${version.dremio}</version>
+      <version>${project.version}</version>
       <exclusions>
         <exclusion>
           <artifactId>hadoop-common</artifactId>
@@ -72,7 +71,7 @@
     <!-- <dependency>
       <groupId>com.dremio.sabot</groupId>
       <artifactId>dremio-sabot-kernel</artifactId>
-      <version>${version.dremio}</version>
+      <version>${project.version}</version>
       <classifier>tests</classifier>
       <scope>test</scope>
       <exclusions>
@@ -85,7 +84,7 @@
     <dependency>
       <groupId>com.dremio</groupId>
       <artifactId>dremio-common</artifactId>
-      <version>${version.dremio}</version>
+      <version>${project.version}</version>
       <classifier>tests</classifier>
       <scope>test</scope>
     </dependency> -->
@@ -106,7 +105,7 @@
     <dependency>
       <groupId>com.dremio.services</groupId>
       <artifactId>dremio-services-namespace</artifactId>
-      <version>${version.dremio}</version>
+      <version>${project.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.protobuf</groupId>

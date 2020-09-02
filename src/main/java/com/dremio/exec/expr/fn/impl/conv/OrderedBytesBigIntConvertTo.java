@@ -15,10 +15,9 @@
  */
 package com.dremio.exec.expr.fn.impl.conv;
 
-import io.netty.buffer.ArrowBuf;
-
 import javax.inject.Inject;
 
+import org.apache.arrow.memory.ArrowBuf;
 import org.apache.arrow.vector.holders.BigIntHolder;
 import org.apache.arrow.vector.holders.VarBinaryHolder;
 

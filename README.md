@@ -7,9 +7,9 @@
 To add the Dremio Community HBase Connector to the list of Dremio sources:
 
 1. From the project root, run `mvn clean install`. 
-   The HBase Connector `dremio-hbase-plugin-4.2.2-202004211133290458-b550b6fa.jar` appears in the `target` directory.
+   The HBase Connector `dremio-hbase-plugin-<latest-version>.jar` appears in the `target` directory.
 
-1. Copy `dremio-hbase-plugin-4.2.2-202004211133290458-b550b6fa.jar` to the `<DREMIO_HOME>/jars` folder on all Dremio
+1. Copy `dremio-hbase-plugin-<latest-version>.jar` to the `<DREMIO_HOME>/jars` folder on all Dremio
  nodes.
 
 1. Run `<DREMIO_HOME>/bin/stop` to stop Dremio.
