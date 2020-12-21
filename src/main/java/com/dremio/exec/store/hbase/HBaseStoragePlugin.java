@@ -180,7 +180,7 @@ public class HBaseStoragePlugin implements StoragePlugin, SupportsListingDataset
     try {
       connection.validate();
     } catch(Exception ex) {
-      return SourceState.badState(ex);
+      return SourceState.badState(ex.toString());
     }
     return SourceState.GOOD;
   }

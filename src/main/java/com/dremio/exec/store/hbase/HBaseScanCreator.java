@@ -22,6 +22,7 @@ import com.dremio.common.expression.SchemaPath;
 import com.dremio.exec.physical.base.GroupScan;
 import com.dremio.exec.proto.CoordExecRPC.HBaseSubScanSpec;
 import com.dremio.exec.store.RecordReader;
+import com.dremio.exec.store.parquet.RecordReaderIterator;
 import com.dremio.sabot.exec.context.OperatorContext;
 import com.dremio.sabot.exec.fragment.FragmentExecutionContext;
 import com.dremio.sabot.op.scan.ScanOperator;
@@ -48,7 +49,7 @@ public class HBaseScanCreator implements ProducerOperator.Creator<HBaseSubScan>{
         return new HBaseRecordReader(plugin2.getConnection(), scanSpec, columns, context, false);
       }});
 
-    return new ScanOperator(subScan, context, readers.iterator());
+    return new ScanOperator(subScan, context, RecordReaderIterator.from(readers.iterator()));
   }
 
 
