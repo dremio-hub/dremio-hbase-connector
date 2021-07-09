@@ -64,7 +64,7 @@ public class HBaseScanPrel extends ScanPrelBase {
     this.stopRow = stopRow;
   }
 
-  public byte[] getHBaseFilter() {
+  byte[] getHBaseFilter() {
     return filter;
   }
 
