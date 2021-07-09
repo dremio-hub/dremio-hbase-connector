@@ -97,7 +97,7 @@ public abstract class HBasePushFilterIntoScan extends RelOptRule {
   protected void doPushFilterToScan(final RelOptRuleCall call, final FilterPrel filter, final ProjectPrel project, final HBaseScanPrel scan, final RexNode condition) {
 
     final LogicalExpression conditionExp = RexToExpr.toExpr(new ParseContext(PrelUtil.getPlannerSettings(call.getPlanner())), scan.getRowType(), scan.getCluster().getRexBuilder(), condition);
-    final HBaseFilterBuilder hbaseFilterBuilder = new HBaseFilterBuilder(TableNameGetter.getTableName(scan.getTableMetadata().getName()), scan.getStartRow(), scan.getStopRow(), scan.getFilter(), conditionExp);
+    final HBaseFilterBuilder hbaseFilterBuilder = new HBaseFilterBuilder(TableNameGetter.getTableName(scan.getTableMetadata().getName()), scan.getStartRow(), scan.getStopRow(), scan.getHBaseFilter(), conditionExp);
     final HBaseScanSpec newScanSpec = hbaseFilterBuilder.parseTree();
     if (newScanSpec == null) {
       return; //no filter pushdown ==> No transformation.

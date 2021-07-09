@@ -64,7 +64,7 @@ public class HBaseScanPrel extends ScanPrelBase {
     this.stopRow = stopRow;
   }
 
-  public byte[] getFilter() {
+  public byte[] getHBaseFilter() {
     return filter;
   }
 
@@ -110,12 +110,12 @@ public class HBaseScanPrel extends ScanPrelBase {
   @Override
   public RelNode copy(RelTraitSet traitSet, List<RelNode> inputs) {
     Preconditions.checkArgument(inputs == null || inputs.size() == 0);
-    return new HBaseScanPrel(getCluster(), traitSet, getTable(), getTableMetadata(), getProjectedColumns(), getCostAdjustmentFactor(), getStartRow(), getStopRow(), getFilter());
+    return new HBaseScanPrel(getCluster(), traitSet, getTable(), getTableMetadata(), getProjectedColumns(), getCostAdjustmentFactor(), getStartRow(), getStopRow(), getHBaseFilter());
   }
 
   @Override
   public HBaseScanPrel cloneWithProject(List<SchemaPath> projection) {
-    return new HBaseScanPrel(getCluster(), getTraitSet(), getTable(), getTableMetadata(), projection, getCostAdjustmentFactor(), getStartRow(), getStopRow(), getFilter());
+    return new HBaseScanPrel(getCluster(), getTraitSet(), getTable(), getTableMetadata(), projection, getCostAdjustmentFactor(), getStartRow(), getStopRow(), getHBaseFilter());
   }
 
 }
