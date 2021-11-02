@@ -16,6 +16,8 @@
 package com.dremio.exec.store.hbase;
 
 import java.util.Arrays;
+import java.util.List;
+
 import org.apache.hadoop.hbase.HConstants;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.filter.BinaryComparator;
@@ -33,7 +35,6 @@ import com.dremio.common.expression.LogicalExpression;
 import com.dremio.common.expression.SchemaPath;
 import com.dremio.common.expression.visitors.AbstractExprVisitor;
 import com.google.common.base.Charsets;
-import com.google.common.collect.ImmutableList;
 
 public class HBaseFilterBuilder extends AbstractExprVisitor<HBaseScanSpec, Void, RuntimeException> implements HBaseConstants {
 
@@ -84,7 +85,7 @@ public class HBaseFilterBuilder extends AbstractExprVisitor<HBaseScanSpec, Void,
   public HBaseScanSpec visitFunctionCall(FunctionCall call, Void value)  {
     HBaseScanSpec nodeScanSpec = null;
     String functionName = call.getName();
-    ImmutableList<LogicalExpression> args = call.args;
+    List<LogicalExpression> args = call.args;
 
     if (CompareFunctionsProcessor.isCompareFunction(functionName)) {
       CompareFunctionsProcessor processor = CompareFunctionsProcessor.process(call);
