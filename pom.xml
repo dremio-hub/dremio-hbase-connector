@@ -20,7 +20,7 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.dremio.plugin</groupId>
-  <version>12.0.0-202012212145230282-d8947fd3</version>
+  <version>19.0.0-202110270341120595-3e3e05e7</version>
   <artifactId>dremio-hbase-plugin</artifactId>
 
   <name>Dremio HBase Community Connector</name>
