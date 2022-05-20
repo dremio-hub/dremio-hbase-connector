@@ -37,7 +37,7 @@ import com.google.common.annotations.VisibleForTesting;
 
 import io.protostuff.Tag;
 
-@SourceType(value = "HBASE", label = "HBase")
+@SourceType(value = "HBASE", label = "HBase", uiConfig = "hbase-layout.json")
 public class HBaseConf extends ConnectionConf<HBaseConf, HBaseStoragePlugin> {
 
   private transient Configuration hbaseConf;
