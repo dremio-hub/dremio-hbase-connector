@@ -34,7 +34,6 @@ import com.dremio.exec.store.TableMetadata;
 import com.dremio.service.namespace.NamespaceException;
 import com.dremio.service.namespace.PartitionChunkMetadata;
 import com.google.common.base.Predicate;
-import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 
 public abstract class HBasePushFilterIntoScan extends RelOptRule {
@@ -110,7 +109,7 @@ public abstract class HBasePushFilterIntoScan extends RelOptRule {
       try {
         metadata = metadata.prune(predicate);
       } catch (NamespaceException ex) {
-        throw Throwables.propagate(ex);
+        throw new RuntimeException(ex);
       }
     }
 

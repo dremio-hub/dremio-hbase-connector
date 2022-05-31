@@ -124,7 +124,7 @@ public class HBaseStoragePlugin implements StoragePlugin, SupportsListingDataset
     }
 
     try (Admin admin = connection.getConnection().getAdmin()) {
-      if (admin.getTableDescriptor(TableNameGetter.getTableName(datasetPath)) == null) {
+      if (admin.getDescriptor(TableNameGetter.getTableName(datasetPath)) == null) {
         return Optional.empty();
       }
     } catch (IOException e) {
