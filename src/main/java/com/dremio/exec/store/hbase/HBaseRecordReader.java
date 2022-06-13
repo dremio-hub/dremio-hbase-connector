@@ -90,9 +90,9 @@ public class HBaseRecordReader extends AbstractRecordReader implements HBaseCons
     hbaseTableName = TableName.valueOf(
         Preconditions.checkNotNull(subScanSpec, "HBase reader needs a sub-scan spec").getNamespace(),
         Preconditions.checkNotNull(subScanSpec, "HBase reader needs a sub-scan spec").getTableName());
-    hbaseScan = new Scan(
-        subScanSpec.hasStartRow() ? subScanSpec.getStartRow().toByteArray() : HConstants.EMPTY_START_ROW,
-        subScanSpec.hasStopRow() ? subScanSpec.getStopRow().toByteArray() : HConstants.EMPTY_END_ROW);
+    hbaseScan = new Scan()
+        .withStartRow(subScanSpec.hasStartRow() ? subScanSpec.getStartRow().toByteArray() : HConstants.EMPTY_START_ROW)
+        .withStopRow(subScanSpec.hasStopRow() ? subScanSpec.getStopRow().toByteArray() : HConstants.EMPTY_END_ROW);
     this.context = context;
     this.sample = sample;
     Filter filter =

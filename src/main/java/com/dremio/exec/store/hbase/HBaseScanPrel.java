@@ -33,7 +33,8 @@ import com.dremio.exec.store.TableMetadata;
 import com.dremio.options.Options;
 import com.dremio.options.TypeValidators;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableList;
+
 /**
  * Physical scan operator.
  */
@@ -58,7 +59,7 @@ public class HBaseScanPrel extends ScanPrelBase {
       byte[] startRow,
       byte[] stopRow,
       byte[] filter) {
-    super(cluster, traitSet, table, dataset.getStoragePluginId(), dataset, projectedColumns, observedRowcountAdjustment);
+    super(cluster, traitSet, table, dataset.getStoragePluginId(), dataset, projectedColumns, observedRowcountAdjustment, ImmutableList.of());
     this.filter = filter;
     this.startRow = startRow;
     this.stopRow = stopRow;
@@ -94,7 +95,7 @@ public class HBaseScanPrel extends ScanPrelBase {
     try {
       return filter != null || getTableMetadata().getSplitRatio() < 1.0d;
     } catch(Exception ex) {
-      throw Throwables.propagate(ex);
+      throw new RuntimeException(ex);
     }
   }
 

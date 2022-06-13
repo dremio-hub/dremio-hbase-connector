@@ -21,14 +21,14 @@ import java.util.List;
 
 import org.apache.arrow.memory.BufferAllocator;
 import org.apache.arrow.vector.ValueVector;
-import org.apache.hadoop.hbase.HColumnDescriptor;
-import org.apache.hadoop.hbase.HRegionInfo;
 import org.apache.hadoop.hbase.HRegionLocation;
-import org.apache.hadoop.hbase.HTableDescriptor;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
+import org.apache.hadoop.hbase.client.ColumnFamilyDescriptor;
 import org.apache.hadoop.hbase.client.Connection;
+import org.apache.hadoop.hbase.client.RegionInfo;
 import org.apache.hadoop.hbase.client.RegionLocator;
+import org.apache.hadoop.hbase.client.TableDescriptor;
 
 import com.dremio.common.exceptions.ExecutionSetupException;
 import com.dremio.common.exceptions.UserException;
@@ -96,14 +96,14 @@ public class HBaseTableBuilder implements DatasetHandle {
     try (Admin admin = conn.getAdmin();
          RegionLocator locator = conn.getRegionLocator(tableName)) {
 
-      final HTableDescriptor table = admin.getTableDescriptor(tableName);
+      final TableDescriptor table = admin.getDescriptor(tableName);
       final List<HRegionLocation> regionLocations = locator.getAllRegionLocations();
       final TableStatsCalculator statsCalculator = new TableStatsCalculator(conn, tableName, context.getConfig(),
           enableRegionCalc);
       schema = getSampledSchema(table, oldSchema);
 
       for (HRegionLocation regionLocation : regionLocations) {
-        HRegionInfo regionInfo = regionLocation.getRegionInfo();
+        RegionInfo regionInfo = regionLocation.getRegion();
         long estRowCount = statsCalculator.getRegionSizeInBytes(regionInfo.getRegionName());
         recordCount += estRowCount;
         chunks.add(toPartitionChunk(regionLocation.getHostname(), regionInfo, estRowCount));
@@ -123,7 +123,7 @@ public class HBaseTableBuilder implements DatasetHandle {
     partitionChunks = chunks;
   }
 
-  private static PartitionChunk toPartitionChunk(String hostname, HRegionInfo info, long estimatedRows) {
+  private static PartitionChunk toPartitionChunk(String hostname, RegionInfo info, long estimatedRows) {
     final HBaseSplitXattr.Builder xattr = HBaseSplitXattr.newBuilder();
     if (info.getStartKey() != null) {
       xattr.setStart(ByteString.copyFrom(info.getStartKey()));
@@ -147,7 +147,7 @@ public class HBaseTableBuilder implements DatasetHandle {
     return entityPath.getName();
   }
 
-  private BatchSchema getSampledSchema(HTableDescriptor descriptor, BatchSchema oldSchema) throws Exception {
+  private BatchSchema getSampledSchema(TableDescriptor descriptor, BatchSchema oldSchema) throws Exception {
 
     final HBaseSubScanSpec spec = HBaseSubScanSpec.newBuilder()
       .setNamespace(getNamespace())
@@ -168,7 +168,7 @@ public class HBaseTableBuilder implements DatasetHandle {
       mutator.addField(CompleteType.VARBINARY.toField(HBaseRecordReader.ROW_KEY), ValueVector.class);
 
       // add all column families.
-      for (HColumnDescriptor col : descriptor.getFamilies()) {
+      for (ColumnFamilyDescriptor col : descriptor.getColumnFamilies()) {
         mutator.addField(CompleteType.struct().toField(col.getNameAsString()), ValueVector.class);
       }
 

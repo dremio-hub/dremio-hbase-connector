@@ -18,11 +18,11 @@ package com.dremio.exec.store.hbase;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.hadoop.hbase.CompareOperator;
 import org.apache.hadoop.hbase.HConstants;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.filter.BinaryComparator;
 import org.apache.hadoop.hbase.filter.ByteArrayComparable;
-import org.apache.hadoop.hbase.filter.CompareFilter.CompareOp;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.filter.NullComparator;
 import org.apache.hadoop.hbase.filter.RegexStringComparator;
@@ -171,32 +171,32 @@ public class HBaseFilterBuilder extends AbstractExprVisitor<HBaseScanSpec, Void,
       return createRowKeyPrefixScanSpec(call, processor);
     }
 
-    CompareOp compareOp = null;
+    CompareOperator compareOp = null;
     boolean isNullTest = false;
     ByteArrayComparable comparator = new BinaryComparator(fieldValue);
     byte[] startRow = HConstants.EMPTY_START_ROW;
     byte[] stopRow = HConstants.EMPTY_END_ROW;
     switch (functionName) {
     case "equal":
-      compareOp = CompareOp.EQUAL;
+      compareOp = CompareOperator.EQUAL;
       if (isRowKey) {
         startRow = fieldValue;
         /* stopRow should be just greater than 'value'*/
         stopRow = Arrays.copyOf(fieldValue, fieldValue.length+1);
-        compareOp = CompareOp.EQUAL;
+        compareOp = CompareOperator.EQUAL;
       }
       break;
     case "not_equal":
-      compareOp = CompareOp.NOT_EQUAL;
+      compareOp = CompareOperator.NOT_EQUAL;
       break;
     case "greater_than_or_equal_to":
       if (sortOrderAscending) {
-        compareOp = CompareOp.GREATER_OR_EQUAL;
+        compareOp = CompareOperator.GREATER_OR_EQUAL;
         if (isRowKey) {
           startRow = fieldValue;
         }
       } else {
-        compareOp = CompareOp.LESS_OR_EQUAL;
+        compareOp = CompareOperator.LESS_OR_EQUAL;
         if (isRowKey) {
           // stopRow should be just greater than 'value'
           stopRow = Arrays.copyOf(fieldValue, fieldValue.length+1);
@@ -205,13 +205,13 @@ public class HBaseFilterBuilder extends AbstractExprVisitor<HBaseScanSpec, Void,
       break;
     case "greater_than":
       if (sortOrderAscending) {
-        compareOp = CompareOp.GREATER;
+        compareOp = CompareOperator.GREATER;
         if (isRowKey) {
           // startRow should be just greater than 'value'
           startRow = Arrays.copyOf(fieldValue, fieldValue.length+1);
         }
       } else {
-        compareOp = CompareOp.LESS;
+        compareOp = CompareOperator.LESS;
         if (isRowKey) {
           stopRow = fieldValue;
         }
@@ -219,13 +219,13 @@ public class HBaseFilterBuilder extends AbstractExprVisitor<HBaseScanSpec, Void,
       break;
     case "less_than_or_equal_to":
       if (sortOrderAscending) {
-        compareOp = CompareOp.LESS_OR_EQUAL;
+        compareOp = CompareOperator.LESS_OR_EQUAL;
         if (isRowKey) {
           // stopRow should be just greater than 'value'
           stopRow = Arrays.copyOf(fieldValue, fieldValue.length+1);
         }
       } else {
-        compareOp = CompareOp.GREATER_OR_EQUAL;
+        compareOp = CompareOperator.GREATER_OR_EQUAL;
         if (isRowKey) {
           startRow = fieldValue;
         }
@@ -233,12 +233,12 @@ public class HBaseFilterBuilder extends AbstractExprVisitor<HBaseScanSpec, Void,
       break;
     case "less_than":
       if (sortOrderAscending) {
-        compareOp = CompareOp.LESS;
+        compareOp = CompareOperator.LESS;
         if (isRowKey) {
           stopRow = fieldValue;
         }
       } else {
-        compareOp = CompareOp.GREATER;
+        compareOp = CompareOperator.GREATER;
         if (isRowKey) {
           // startRow should be just greater than 'value'
           startRow = Arrays.copyOf(fieldValue, fieldValue.length+1);
@@ -252,7 +252,7 @@ public class HBaseFilterBuilder extends AbstractExprVisitor<HBaseScanSpec, Void,
         return null;
       }
       isNullTest = true;
-      compareOp = CompareOp.EQUAL;
+      compareOp = CompareOperator.EQUAL;
       comparator = new NullComparator();
       break;
     case "isnotnull":
@@ -261,7 +261,7 @@ public class HBaseFilterBuilder extends AbstractExprVisitor<HBaseScanSpec, Void,
       if (isRowKey) {
         return null;
       }
-      compareOp = CompareOp.NOT_EQUAL;
+      compareOp = CompareOperator.NOT_EQUAL;
       comparator = new NullComparator();
       break;
     case "like":
@@ -270,7 +270,7 @@ public class HBaseFilterBuilder extends AbstractExprVisitor<HBaseScanSpec, Void,
        * apply RegexStringComparator()
        */
       HBaseRegexParser parser = new HBaseRegexParser(call).parse();
-      compareOp = CompareOp.EQUAL;
+      compareOp = CompareOperator.EQUAL;
       comparator = new RegexStringComparator(parser.getRegexString());
 
       /*

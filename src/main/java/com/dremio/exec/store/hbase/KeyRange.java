@@ -19,7 +19,6 @@ import org.apache.hadoop.hbase.util.Bytes;
 
 import com.dremio.hbase.proto.HBasePluginProto.HBaseSplitXattr;
 import com.dremio.service.namespace.dataset.proto.PartitionProtobuf.DatasetSplit;
-import com.google.common.base.Throwables;
 import com.google.common.collect.Range;
 import com.google.protobuf.ByteString;
 import com.google.protobuf.InvalidProtocolBufferException;
@@ -66,7 +65,7 @@ public class KeyRange {
       HBaseSplitXattr split = HBaseSplitXattr.parseFrom(prop);
       return getRange(split.getStart(), split.getStop());
     } catch (InvalidProtocolBufferException e) {
-      throw Throwables.propagate(e);
+      throw new RuntimeException(e);
     }
   }
 

@@ -26,11 +26,12 @@ import java.util.TreeSet;
 
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.CellUtil;
-import org.apache.hadoop.hbase.ClusterStatus;
+import org.apache.hadoop.hbase.ClusterMetrics;
 import org.apache.hadoop.hbase.HRegionLocation;
-import org.apache.hadoop.hbase.RegionLoad;
-import org.apache.hadoop.hbase.ServerLoad;
+import org.apache.hadoop.hbase.RegionMetrics;
+import org.apache.hadoop.hbase.ServerMetrics;
 import org.apache.hadoop.hbase.ServerName;
+import org.apache.hadoop.hbase.Size;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.Admin;
 import org.apache.hadoop.hbase.client.Connection;
@@ -68,8 +69,9 @@ public class TableStatsCalculator {
    * Computes size of each region for table.
    *
    * @param conn
-   * @param hbaseScanSpec
+   * @param tableName
    * @param config
+   * @param enabled
    * @throws IOException
    */
   public TableStatsCalculator(Connection conn, TableName tableName, SabotConfig config, boolean enabled) throws IOException {
@@ -81,7 +83,7 @@ public class TableStatsCalculator {
       if (rowsToSample > 0) {
         Scan scan = new Scan();
         scan.setCaching(rowsToSample < DEFAULT_SAMPLE_SIZE ? rowsToSample : DEFAULT_SAMPLE_SIZE);
-        scan.setMaxVersions(1);
+        scan.readVersions(1);
         ResultScanner scanner = table.getScanner(scan);
         long rowSizeSum = 0;
         int numColumnsSum = 0, rowCount = 0;
@@ -116,35 +118,35 @@ public class TableStatsCalculator {
       List<HRegionLocation> tableRegionInfos = locator.getAllRegionLocations();
       Set<byte[]> tableRegions = new TreeSet<>(Bytes.BYTES_COMPARATOR);
       for (HRegionLocation regionInfo : tableRegionInfos) {
-        tableRegions.add(regionInfo.getRegionInfo().getRegionName());
+        tableRegions.add(regionInfo.getRegion().getRegionName());
       }
 
-      ClusterStatus clusterStatus = null;
+      ClusterMetrics clusterMetrics = null;
       try {
-        clusterStatus = admin.getClusterStatus();
+        clusterMetrics = admin.getClusterMetrics();
       } catch (Exception e) {
         logger.debug(e.getMessage());
       } finally {
-        if (clusterStatus == null) {
+        if (clusterMetrics == null) {
           return;
         }
       }
 
       sizeMap = new TreeMap<>(Bytes.BYTES_COMPARATOR);
 
-      Collection<ServerName> servers = clusterStatus.getServers();
+      Collection<ServerName> servers = clusterMetrics.getServersName();
       //iterate all cluster regions, filter regions from our table and compute their size
       for (ServerName serverName : servers) {
-        ServerLoad serverLoad = clusterStatus.getLoad(serverName);
+        ServerMetrics serverMetrics = clusterMetrics.getLiveServerMetrics().get(serverName);
 
-        for (RegionLoad regionLoad : serverLoad.getRegionsLoad().values()) {
-          byte[] regionId = regionLoad.getName();
+        for (RegionMetrics regionMetrics : serverMetrics.getRegionMetrics().values()) {
+          byte[] regionId = regionMetrics.getRegionName();
 
           if (tableRegions.contains(regionId)) {
-            long regionSizeMB = regionLoad.getMemStoreSizeMB() + regionLoad.getStorefileSizeMB();
+            long regionSizeMB = (long) (regionMetrics.getMemStoreSize().get(Size.Unit.MEGABYTE) + regionMetrics.getStoreFileSize().get(Size.Unit.MEGABYTE));
             sizeMap.put(regionId, (regionSizeMB > 0 ? regionSizeMB : 1) * (1024*1024));
             if (logger.isDebugEnabled()) {
-              logger.debug("Region " + regionLoad.getNameAsString() + " has size " + regionSizeMB + "MB");
+              logger.debug("Region " + regionMetrics.getNameAsString() + " has size " + regionSizeMB + "MB");
             }
           }
         }
