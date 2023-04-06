@@ -28,13 +28,14 @@ import com.dremio.exec.catalog.StoragePluginId;
 import com.dremio.exec.planner.common.ScanRelBase;
 import com.dremio.exec.planner.logical.Rel;
 import com.dremio.exec.store.TableMetadata;
+import com.google.common.collect.ImmutableList;
 
 public class HBaseScanDrel extends ScanRelBase implements Rel {
 
   public HBaseScanDrel(RelOptCluster cluster, RelTraitSet traitSet, RelOptTable table,
       StoragePluginId pluginId, TableMetadata tableMetadata, List<SchemaPath> projectedColumns,
       double observedRowcountAdjustment) {
-    super(cluster, traitSet, table, pluginId, tableMetadata, projectedColumns, observedRowcountAdjustment);
+    super(cluster, traitSet, table, pluginId, tableMetadata, projectedColumns, observedRowcountAdjustment,  ImmutableList.of());
   }
 
   @Override

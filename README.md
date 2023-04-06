@@ -2,6 +2,10 @@
 
 [![Build Status](https://travis-ci.org/dremio-hub/dremio-hbase-connector.svg?branch=master)](https://travis-ci.org/dremio-hub/dremio-hbase-connector)
 
+## Compatibility Notice
+
+As of April 6, 2023, the connector no longer compiles with Dremio OSS versions older than 24.0.0 due to a change in Dremio. Please make sure to use Dremio OSS version 24.0.0 or later if you want to use the Dremio community HBase connector.
+
 ## Building and Installation
 
 To add the Dremio Community HBase Connector to the list of Dremio sources:
