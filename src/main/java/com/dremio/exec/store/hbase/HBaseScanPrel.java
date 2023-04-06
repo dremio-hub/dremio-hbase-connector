@@ -59,7 +59,7 @@ public class HBaseScanPrel extends ScanPrelBase {
       byte[] startRow,
       byte[] stopRow,
       byte[] filter) {
-    super(cluster, traitSet, table, dataset.getStoragePluginId(), dataset, projectedColumns, observedRowcountAdjustment, ImmutableList.of(), ImmutableList.of());
+    super(cluster, traitSet, table, dataset.getStoragePluginId(), dataset, projectedColumns, observedRowcountAdjustment, ImmutableList.of());
     this.filter = filter;
     this.startRow = startRow;
     this.stopRow = stopRow;
