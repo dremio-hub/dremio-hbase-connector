@@ -4,7 +4,9 @@
 
 ## Compatibility Notice
 
-As of April 6, 2023, the connector no longer compiles with Dremio OSS versions older than 24.0.0 due to a change in Dremio. Please make sure to use Dremio OSS version 24.0.0 or later if you want to use the Dremio community HBase connector.
+Connector is compatible with Dremio versions 24.0 and later.
+
+Use [HBase v1.0.0 connector](https://github.com/dremio-hub/dremio-hbase-connector/releases/tag/v1.0.0) with earlier versions of Dremio.
 
 ## Building and Installation
 
