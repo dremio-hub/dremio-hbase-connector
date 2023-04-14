@@ -2,6 +2,12 @@
 
 [![Build Status](https://travis-ci.org/dremio-hub/dremio-hbase-connector.svg?branch=master)](https://travis-ci.org/dremio-hub/dremio-hbase-connector)
 
+## Compatibility Notice
+
+Connector is compatible with Dremio versions 24.0 and later.
+
+Use [HBase v1.0.0 connector](https://github.com/dremio-hub/dremio-hbase-connector/releases/tag/v1.0.0) with earlier versions of Dremio.
+
 ## Building and Installation
 
 To add the Dremio Community HBase Connector to the list of Dremio sources:
@@ -22,6 +28,8 @@ To add the Dremio Community HBase Connector to the list of Dremio sources:
     * [hbase-shaded-miscellaneous-2.2.0.jar](https://repo1.maven.org/maven2/org/apache/hbase/thirdparty/hbase-shaded-miscellaneous/2.2.0/hbase-shaded-miscellaneous-2.2.0.jar)
     * [hbase-shaded-netty-2.2.0.jar](https://repo1.maven.org/maven2/org/apache/hbase/thirdparty/hbase-shaded-netty/2.2.0/hbase-shaded-netty-2.2.0.jar)
     * [hbase-shaded-protobuf-2.2.0.jar](https://repo1.maven.org/maven2/org/apache/hbase/thirdparty/hbase-shaded-protobuf/2.2.0/hbase-shaded-protobuf-2.2.0.jar)
+    * [htrace-core4-4.2.0-incubating.jar](
+    https://repo1.maven.org/maven2/org/apache/htrace/htrace-core4/4.2.0-incubating/htrace-core4-4.2.0-incubating.jar)
 
 1. Run `<DREMIO_HOME>/bin/start` to start Dremio.
 
